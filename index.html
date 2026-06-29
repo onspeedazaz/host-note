@@ -58,6 +58,10 @@
           <button id="clearMonthButton" type="button" class="danger">ล้างเดือนนี้</button>
         </section>
 
+        <section class="mobile-days" aria-label="รายวันสำหรับมือถือ">
+          <div class="mobile-day-list" id="mobileDayList"></div>
+        </section>
+
         <section class="table-panel" aria-label="ตารางวันที่ 1 ถึง 31">
           <div class="table-scroll">
             <table class="work-table">
@@ -114,6 +118,27 @@
         <td class="row-total">0</td>
         <td><input class="note-input" type="text" data-note placeholder="โน้ต" /></td>
       </tr>
+    </template>
+
+    <template id="dayCardTemplate">
+      <article class="day-card">
+        <div class="day-card-head">
+          <strong class="mobile-day-number"></strong>
+          <span class="mobile-row-total">0</span>
+        </div>
+        <div class="round-grid">
+          <label><span>รอบ 1</span><input type="number" inputmode="decimal" min="0" step="1" data-round="0" /></label>
+          <label><span>รอบ 2</span><input type="number" inputmode="decimal" min="0" step="1" data-round="1" /></label>
+          <label><span>รอบ 3</span><input type="number" inputmode="decimal" min="0" step="1" data-round="2" /></label>
+          <label><span>รอบ 4</span><input type="number" inputmode="decimal" min="0" step="1" data-round="3" /></label>
+          <label><span>รอบ 5</span><input type="number" inputmode="decimal" min="0" step="1" data-round="4" /></label>
+          <label><span>รอบ 6</span><input type="number" inputmode="decimal" min="0" step="1" data-round="5" /></label>
+        </div>
+        <label class="mobile-note">
+          <span>โน้ต</span>
+          <input type="text" data-note placeholder="เพิ่มโน้ต" />
+        </label>
+      </article>
     </template>
 
     <script src="app.js" defer></script>

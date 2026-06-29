@@ -45,6 +45,7 @@ button {
   color: var(--ink);
   background: var(--panel);
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 button:active {
@@ -167,6 +168,10 @@ h2 {
   flex-wrap: wrap;
   gap: 8px;
   margin: 0 0 12px;
+}
+
+.mobile-days {
+  display: none;
 }
 
 .table-panel,
@@ -338,11 +343,22 @@ tfoot .sticky-col {
 
 @media (max-width: 760px) {
   body {
-    background: linear-gradient(180deg, var(--top) 0, var(--top) 260px, #f5f7fa 260px);
+    background: linear-gradient(180deg, var(--top) 0, var(--top) 236px, #f5f7fa 236px);
+  }
+
+  .app-shell {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .topbar {
     display: grid;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 2rem;
   }
 
   .period-controls {
@@ -358,8 +374,117 @@ tfoot .sticky-col {
     padding: 12px;
   }
 
+  .summary-tile strong {
+    font-size: 1.45rem;
+  }
+
+  .toolbar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .toolbar button {
-    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0 8px;
+    font-size: 0.86rem;
+    white-space: nowrap;
+  }
+
+  .mobile-days {
+    display: block;
+  }
+
+  .mobile-day-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .day-card {
+    scroll-margin-top: 12px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+    box-shadow: var(--shadow);
+  }
+
+  .day-card.today {
+    border-color: #f2cc70;
+    background: #fff8e6;
+  }
+
+  .day-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-day-number {
+    font-size: 1rem;
+    color: #344454;
+  }
+
+  .mobile-row-total {
+    min-width: 92px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    color: var(--accent-dark);
+    background: #e9fbf8;
+    font-size: 1rem;
+    font-weight: 900;
+    text-align: right;
+  }
+
+  .round-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .round-grid label,
+  .mobile-note {
+    display: grid;
+    gap: 5px;
+  }
+
+  .round-grid span,
+  .mobile-note span {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .round-grid input,
+  .mobile-note input {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #c9d3df;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: var(--ink);
+    background: #fff;
+    font-size: 16px;
+    outline: none;
+  }
+
+  .round-grid input {
+    text-align: right;
+  }
+
+  .mobile-note {
+    margin-top: 10px;
+  }
+
+  .round-grid input:focus,
+  .mobile-note input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+  }
+
+  .table-panel {
+    display: none;
   }
 
   .month-grid {
@@ -377,8 +502,11 @@ tfoot .sticky-col {
     grid-template-columns: 1fr;
   }
 
-  .summary-grid,
   .month-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
     grid-template-columns: 1fr;
   }
 }

@@ -25,6 +25,8 @@ const els = {
   yearInput: document.querySelector("#yearInput"),
   dailyRows: document.querySelector("#dailyRows"),
   rowTemplate: document.querySelector("#rowTemplate"),
+  mobileDayList: document.querySelector("#mobileDayList"),
+  dayCardTemplate: document.querySelector("#dayCardTemplate"),
   monthTotal: document.querySelector("#monthTotal"),
   activeDays: document.querySelector("#activeDays"),
   averageDay: document.querySelector("#averageDay"),
@@ -71,6 +73,7 @@ function setup() {
 
 function render() {
   renderRows();
+  renderMobileCards();
   renderSummary();
   renderMonthGrid();
 }
@@ -96,15 +99,47 @@ function renderRows() {
     fragment.querySelectorAll("[data-round]").forEach((input) => {
       const index = Number(input.dataset.round);
       input.value = entry.rounds[index] ? String(entry.rounds[index]) : "";
-      input.addEventListener("input", () => updateRound(day, index, input.value));
+      input.addEventListener("input", () => updateRound(day, index, input.value, input));
     });
 
     const noteInput = fragment.querySelector("[data-note]");
     noteInput.value = entry.note || "";
-    noteInput.addEventListener("input", () => updateNote(day, noteInput.value));
+    noteInput.addEventListener("input", () => updateNote(day, noteInput.value, noteInput));
 
     fragment.querySelector(".row-total").textContent = formatNumber(sumRounds(entry.rounds));
     els.dailyRows.append(fragment);
+  }
+}
+
+function renderMobileCards() {
+  els.mobileDayList.textContent = "";
+  const today = new Date();
+  const isCurrentMonth = state.year === today.getFullYear() && state.month === today.getMonth();
+
+  for (let day = 1; day <= 31; day += 1) {
+    const fragment = els.dayCardTemplate.content.cloneNode(true);
+    const card = fragment.querySelector(".day-card");
+    const entry = getEntry(day);
+
+    card.dataset.day = String(day);
+    if (isCurrentMonth && day === today.getDate()) {
+      card.classList.add("today");
+    }
+
+    fragment.querySelector(".mobile-day-number").textContent = `วันที่ ${day}`;
+
+    fragment.querySelectorAll("[data-round]").forEach((input) => {
+      const index = Number(input.dataset.round);
+      input.value = entry.rounds[index] ? String(entry.rounds[index]) : "";
+      input.addEventListener("input", () => updateRound(day, index, input.value, input));
+    });
+
+    const noteInput = fragment.querySelector("[data-note]");
+    noteInput.value = entry.note || "";
+    noteInput.addEventListener("input", () => updateNote(day, noteInput.value, noteInput));
+
+    fragment.querySelector(".mobile-row-total").textContent = formatMoney(sumRounds(entry.rounds));
+    els.mobileDayList.append(fragment);
   }
 }
 
@@ -132,6 +167,11 @@ function renderSummary() {
   document.querySelectorAll("#dailyRows tr").forEach((row) => {
     const day = Number(row.dataset.day);
     row.querySelector(".row-total").textContent = formatMoney(sumRounds(getEntry(day).rounds));
+  });
+
+  document.querySelectorAll("#mobileDayList .day-card").forEach((card) => {
+    const day = Number(card.dataset.day);
+    card.querySelector(".mobile-row-total").textContent = formatMoney(sumRounds(getEntry(day).rounds));
   });
 }
 
@@ -163,17 +203,46 @@ function renderMonthGrid() {
   });
 }
 
-function updateRound(day, roundIndex, rawValue) {
+function updateRound(day, roundIndex, rawValue, sourceInput) {
   const entry = getEntry(day);
   entry.rounds[roundIndex] = normalizeNumber(rawValue);
   saveData();
+  syncRoundInputs(day, roundIndex, sourceInput);
+  updateDayTotals(day);
   renderSummary();
   renderMonthGrid();
 }
 
-function updateNote(day, value) {
+function updateNote(day, value, sourceInput) {
   getEntry(day).note = value.trimStart();
   saveData();
+  syncNoteInputs(day, sourceInput);
+}
+
+function syncRoundInputs(day, roundIndex, sourceInput) {
+  const selector = `[data-day="${day}"] [data-round="${roundIndex}"]`;
+  document.querySelectorAll(selector).forEach((input) => {
+    if (input !== sourceInput) {
+      input.value = sourceInput.value;
+    }
+  });
+}
+
+function syncNoteInputs(day, sourceInput) {
+  const selector = `[data-day="${day}"] [data-note]`;
+  document.querySelectorAll(selector).forEach((input) => {
+    if (input !== sourceInput) {
+      input.value = sourceInput.value;
+    }
+  });
+}
+
+function updateDayTotals(day) {
+  const total = formatMoney(sumRounds(getEntry(day).rounds));
+  const row = document.querySelector(`#dailyRows tr[data-day="${day}"]`);
+  const card = document.querySelector(`#mobileDayList .day-card[data-day="${day}"]`);
+  row?.querySelector(".row-total") && (row.querySelector(".row-total").textContent = total);
+  card?.querySelector(".mobile-row-total") && (card.querySelector(".mobile-row-total").textContent = total);
 }
 
 function getEntry(day) {
@@ -282,8 +351,10 @@ function goToToday() {
   els.monthSelect.value = String(state.month);
   render();
 
-  const row = document.querySelector(`#dailyRows tr[data-day="${today.getDate()}"]`);
-  row?.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" });
+  const target =
+    document.querySelector(`#mobileDayList .day-card[data-day="${today.getDate()}"]`) ||
+    document.querySelector(`#dailyRows tr[data-day="${today.getDate()}"]`);
+  target?.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" });
 }
 
 function exportCsv() {
