@@ -1,4 +1,4 @@
-const CACHE_NAME = "host-note-cache-v2";
+const CACHE_NAME = "host-note-cache-v3";
 const ASSETS = [
   "./",
   "./index.html",

@@ -83,7 +83,7 @@ function renderRows() {
   const today = new Date();
   const isCurrentMonth = state.year === today.getFullYear() && state.month === today.getMonth();
 
-  for (let day = 1; day <= 31; day += 1) {
+  for (let day = 1; day <= getDaysInMonth(); day += 1) {
     const fragment = els.rowTemplate.content.cloneNode(true);
     const row = fragment.querySelector("tr");
     const dayCell = fragment.querySelector(".day-cell");
@@ -116,7 +116,7 @@ function renderMobileCards() {
   const today = new Date();
   const isCurrentMonth = state.year === today.getFullYear() && state.month === today.getMonth();
 
-  for (let day = 1; day <= 31; day += 1) {
+  for (let day = 1; day <= getDaysInMonth(); day += 1) {
     const fragment = els.dayCardTemplate.content.cloneNode(true);
     const card = fragment.querySelector(".day-card");
     const entry = getEntry(day);
@@ -281,7 +281,7 @@ function getCurrentMonthTotals() {
   const roundTotals = [0, 0, 0, 0, 0, 0];
   const days = [];
 
-  for (let day = 1; day <= 31; day += 1) {
+  for (let day = 1; day <= getDaysInMonth(); day += 1) {
     const rounds = getEntry(day).rounds;
     rounds.forEach((value, index) => {
       roundTotals[index] += normalizeNumber(value);
@@ -296,7 +296,7 @@ function getMonthTotal(month) {
   const monthData = getMonthData(month, state.year);
   let total = 0;
 
-  for (let day = 1; day <= 31; day += 1) {
+  for (let day = 1; day <= getDaysInMonth(month, state.year); day += 1) {
     const entry = monthData[day];
     if (entry) {
       total += sumRounds(entry.rounds || []);
@@ -308,6 +308,10 @@ function getMonthTotal(month) {
 
 function sumRounds(rounds) {
   return rounds.reduce((sum, value) => sum + normalizeNumber(value), 0);
+}
+
+function getDaysInMonth(month = state.month, year = state.year) {
+  return new Date(year, month + 1, 0).getDate();
 }
 
 function normalizeNumber(value) {
@@ -361,7 +365,7 @@ function exportCsv() {
   const header = ["วันที่", "รอบ 1", "รอบ 2", "รอบ 3", "รอบ 4", "รอบ 5", "รอบ 6", "รวม", "โน้ต"];
   const rows = [header];
 
-  for (let day = 1; day <= 31; day += 1) {
+  for (let day = 1; day <= getDaysInMonth(); day += 1) {
     const entry = getEntry(day);
     rows.push([
       day,
