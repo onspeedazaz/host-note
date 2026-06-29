@@ -1,0 +1,384 @@
+:root {
+  color-scheme: light;
+  --ink: #16202a;
+  --muted: #657280;
+  --line: #d7dee6;
+  --panel: #ffffff;
+  --soft: #eef3f7;
+  --accent: #0f766e;
+  --accent-dark: #115e59;
+  --warn: #b42318;
+  --warn-soft: #fff0ed;
+  --top: #14213d;
+  --gold: #f4b942;
+  --shadow: 0 12px 28px rgba(22, 32, 42, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #f5f7fa;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--top) 0, var(--top) 210px, #f5f7fa 210px);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: var(--ink);
+  background: var(--panel);
+  cursor: pointer;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button.danger {
+  color: var(--warn);
+  background: var(--warn-soft);
+  border-color: #ffcdc5;
+}
+
+.app-shell {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 18px) 14px 28px;
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  margin: 0 0 3px;
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+h1 {
+  font-size: clamp(1.7rem, 6vw, 3rem);
+  line-height: 1.05;
+}
+
+h2 {
+  font-size: 1.1rem;
+}
+
+.period-controls {
+  display: grid;
+  grid-template-columns: minmax(130px, 180px) minmax(92px, 112px);
+  gap: 8px;
+  min-width: 0;
+}
+
+.period-controls label {
+  display: grid;
+  gap: 5px;
+  color: #dce6f2;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.period-controls select,
+.period-controls input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  padding: 0 10px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  outline: none;
+}
+
+.period-controls option {
+  color: var(--ink);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.summary-tile {
+  min-height: 92px;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(215, 222, 230, 0.8);
+}
+
+.summary-tile span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.summary-tile strong {
+  display: block;
+  margin-top: 8px;
+  font-size: clamp(1.35rem, 4vw, 2rem);
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.summary-tile.total {
+  background: #e9fbf8;
+  border-color: #a8e4dc;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.table-panel,
+.month-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.table-scroll {
+  overflow: auto;
+  border-radius: 8px;
+}
+
+.work-table {
+  width: 100%;
+  min-width: 940px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.work-table th,
+.work-table td {
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 8px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+.work-table th:last-child,
+.work-table td:last-child {
+  border-right: 0;
+}
+
+.work-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 44px;
+  background: #edf2f7;
+  color: #314050;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.work-table tfoot th {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background: #e9fbf8;
+  color: var(--accent-dark);
+  font-size: 0.9rem;
+}
+
+.work-table td {
+  background: #fff;
+}
+
+.work-table tr.today td,
+.work-table tr.today .sticky-col {
+  background: #fff8e6;
+}
+
+.work-table input {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid #c9d3df;
+  border-radius: 7px;
+  padding: 6px 8px;
+  text-align: right;
+  background: #fff;
+  outline: none;
+}
+
+.work-table input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+}
+
+.work-table input[type="number"] {
+  min-width: 86px;
+}
+
+.note-col {
+  min-width: 230px;
+}
+
+.note-input {
+  min-width: 220px;
+  text-align: left !important;
+}
+
+.row-total {
+  min-width: 92px;
+  color: var(--accent-dark);
+  font-weight: 800;
+}
+
+.sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 84px;
+  text-align: left !important;
+  background: #f8fafc !important;
+}
+
+thead .sticky-col,
+tfoot .sticky-col {
+  z-index: 3;
+}
+
+.day-cell {
+  color: #344454;
+  white-space: nowrap;
+}
+
+.month-panel {
+  margin-top: 14px;
+  padding: 14px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.section-heading span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.month-card {
+  display: grid;
+  gap: 5px;
+  min-height: 76px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfe;
+}
+
+.month-card.current {
+  border-color: #8fd8ce;
+  background: #e9fbf8;
+}
+
+.month-card span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.month-card strong {
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  body {
+    background: linear-gradient(180deg, var(--top) 0, var(--top) 260px, #f5f7fa 260px);
+  }
+
+  .topbar {
+    display: grid;
+  }
+
+  .period-controls {
+    grid-template-columns: 1fr 108px;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .summary-tile {
+    min-height: 82px;
+    padding: 12px;
+  }
+
+  .toolbar button {
+    flex: 1 1 auto;
+  }
+
+  .month-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .app-shell {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .period-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-grid,
+  .month-grid {
+    grid-template-columns: 1fr;
+  }
+}

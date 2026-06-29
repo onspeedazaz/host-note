@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#14213d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Host Note" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="icon" href="icon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Host Note</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Host Note</p>
+          <h1>ตารางรอบบาร์</h1>
+        </div>
+        <div class="period-controls" aria-label="เลือกช่วงเวลา">
+          <label>
+            <span>เดือน</span>
+            <select id="monthSelect"></select>
+          </label>
+          <label>
+            <span>ปี</span>
+            <input id="yearInput" type="number" inputmode="numeric" min="2000" max="2100" />
+          </label>
+        </div>
+      </header>
+
+      <main>
+        <section class="summary-grid" aria-label="สรุปเดือนนี้">
+          <article class="summary-tile total">
+            <span>ยอดเดือนนี้</span>
+            <strong id="monthTotal">0</strong>
+          </article>
+          <article class="summary-tile">
+            <span>วันที่มีงาน</span>
+            <strong id="activeDays">0</strong>
+          </article>
+          <article class="summary-tile">
+            <span>เฉลี่ยต่อวัน</span>
+            <strong id="averageDay">0</strong>
+          </article>
+          <article class="summary-tile">
+            <span>วันยอดสูงสุด</span>
+            <strong id="bestDay">-</strong>
+          </article>
+        </section>
+
+        <section class="toolbar" aria-label="คำสั่งตาราง">
+          <button id="todayButton" type="button">ไปวันนี้</button>
+          <button id="exportButton" type="button">ดาวน์โหลด CSV</button>
+          <button id="clearMonthButton" type="button" class="danger">ล้างเดือนนี้</button>
+        </section>
+
+        <section class="table-panel" aria-label="ตารางวันที่ 1 ถึง 31">
+          <div class="table-scroll">
+            <table class="work-table">
+              <thead>
+                <tr>
+                  <th class="sticky-col">วันที่</th>
+                  <th>รอบ 1</th>
+                  <th>รอบ 2</th>
+                  <th>รอบ 3</th>
+                  <th>รอบ 4</th>
+                  <th>รอบ 5</th>
+                  <th>รอบ 6</th>
+                  <th>รวม</th>
+                  <th class="note-col">โน้ต</th>
+                </tr>
+              </thead>
+              <tbody id="dailyRows"></tbody>
+              <tfoot>
+                <tr>
+                  <th class="sticky-col">รวม</th>
+                  <th id="roundTotal0">0</th>
+                  <th id="roundTotal1">0</th>
+                  <th id="roundTotal2">0</th>
+                  <th id="roundTotal3">0</th>
+                  <th id="roundTotal4">0</th>
+                  <th id="roundTotal5">0</th>
+                  <th id="grandTotal">0</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </section>
+
+        <section class="month-panel" aria-label="ตารางสรุปทั้งปี">
+          <div class="section-heading">
+            <h2>สรุป 12 เดือน</h2>
+            <span id="yearLabel"></span>
+          </div>
+          <div class="month-grid" id="monthGrid"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="rowTemplate">
+      <tr>
+        <th class="sticky-col day-cell" scope="row"></th>
+        <td><input type="number" inputmode="decimal" min="0" step="1" data-round="0" /></td>
+        <td><input type="number" inputmode="decimal" min="0" step="1" data-round="1" /></td>
+        <td><input type="number" inputmode="decimal" min="0" step="1" data-round="2" /></td>
+        <td><input type="number" inputmode="decimal" min="0" step="1" data-round="3" /></td>
+        <td><input type="number" inputmode="decimal" min="0" step="1" data-round="4" /></td>
+        <td><input type="number" inputmode="decimal" min="0" step="1" data-round="5" /></td>
+        <td class="row-total">0</td>
+        <td><input class="note-input" type="text" data-note placeholder="โน้ต" /></td>
+      </tr>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
